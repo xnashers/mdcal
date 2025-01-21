@@ -3,124 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rush ID</title>
+    <title>Medical Depot</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f9;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            position: relative;
         }
-        .container {
-            width: 100vh;
-            height: calc(100vh / 1.5); /* 4R aspect ratio in landscape is 6:4, i.e., 1.5:1 */
-            max-width: 100vw;
-            max-height: calc(100vw * 1.5);
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 2px;
-            border: 1px solid #000;
-            background-color: #fff;
-            overflow: hidden;
-            position: relative;
-            z-index: 1;
-        }
-        .square {
-            border: 1px solid #000000;
-            position: relative;
-            width: 100%;
-            height: 100%;
+
+        .table-container {
+            width: 4in;
+            height: 6in;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            overflow: hidden;
         }
-        .square img {
-            position: absolute;
-            top: 0;
-            left: 0;
+
+        table {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-        .big-square {
-            grid-column: span 2;
-            grid-row: span 2;
+
+        th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 8px;
         }
-        .hidden {
-            display: none;
-        }
-        .upload-btn {
-            padding: 10px 20px;
-            background-color: #007bff;
+
+        th {
+            background-color: #eb78fa;
             color: white;
-            border: none;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-            z-index: 3;
-            position: relative;
+            font-weight: bold;
         }
-        .upload-btn:hover {
-            opacity: 0.8;
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
         }
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
+
+        tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .total-row {
+            background-color: #fc3d3d;
+            color: white;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container" id="printArea">
-        <div class="square big-square" id="square1"></div>
-        <div class="square big-square" id="square2"></div>
-        <div class="square big-square" id="square3"></div>
-        <div class="square big-square" id="square4"></div>
-        <div class="square big-square" id="square5"></div>
-        <div class="square" id="square6"></div>
-        <div class="square" id="square7"></div>
-        <div class="square" id="square8"></div>
-        <div class="square" id="square9"></div>
-
+    <div class="table-container">
+        <h2 style="text-align: center;">Sales Counter Medical Depot</h2>
+	
+        <table>
+            <thead>
+                <tr>
+                    <th>Denomination</th>
+                    <th>Count</th>
+                    <th>Value per Unit</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Paper denominations -->
+                <tr><td>Paper</td><td></td><td></td><td></td></tr>
+                <tr><td>1,000</td><td contenteditable="true"></td><td>1,000</td><td>0</td></tr>
+                <tr><td>500</td><td contenteditable="true"></td><td>500</td><td>0</td></tr>
+                <tr><td>200</td><td contenteditable="true"></td><td>200</td><td>0</td></tr>
+                <tr><td>100</td><td contenteditable="true"></td><td>100</td><td>0</td></tr>
+                <tr><td>50</td><td contenteditable="true"></td><td>50</td><td>0</td></tr>
+                <tr><td>20</td><td contenteditable="true"></td><td>20</td><td>0</td></tr>
+                
+                <!-- Coin denominations -->
+                <tr><td>Coins</td><td></td><td></td><td></td></tr>
+                <tr><td>20</td><td contenteditable="true"></td><td>20</td><td>0</td></tr>
+                <tr><td>10</td><td contenteditable="true"></td><td>10</td><td>0</td></tr>
+                <tr><td>5</td><td contenteditable="true"></td><td>5</td><td>0</td></tr>
+                <tr><td>1</td><td contenteditable="true"></td><td>1</td><td>0</td></tr>
+            </tbody>
+            <tfoot>
+                <tr class="total-row">
+                    <td colspan="3">Total</td>
+                    <td>0</td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
-
-    <!-- Dark overlay with centered button -->
-    <div class="overlay">
-        <button class="upload-btn" onclick="document.getElementById('file').click()">Upload</button>
-    </div>
-    
-    <input type="file" accept="image/*" class="hidden" id="file" onchange="loadImage(event)">
 
     <script>
-        function loadImage(event) {
-            var reader = new FileReader();
-            reader.onload = function() {
-                var imgSrc = reader.result;
-                var squares = document.querySelectorAll('.square');
-                squares.forEach(function(square) {
-                    var img = document.createElement('img');
-                    img.src = imgSrc;
-                    square.innerHTML = '';
-                    square.appendChild(img);
+        // Calculate subtotals and total dynamically
+        document.querySelectorAll('td[contenteditable="true"]').forEach(cell => {
+            cell.addEventListener('input', () => {
+                let row = cell.parentElement;
+                let count = parseInt(row.children[1].innerText) || 0;
+                let value = parseInt(row.children[2].innerText.replace(/,/g, '')) || 0;
+                let subtotal = count * value;
+                row.children[3].innerText = subtotal.toLocaleString();
+
+                // Update the total
+                let total = 0;
+                document.querySelectorAll('tbody tr').forEach(row => {
+                    let subtotal = parseInt(row.children[3]?.innerText.replace(/,/g, '')) || 0;
+                    total += subtotal;
                 });
-                var overlay = document.querySelector('.overlay');
-                if (overlay) {
-                    overlay.style.display = 'none';
-                }
-            }
-            reader.readAsDataURL(event.target.files[0]);
-        }
+                document.querySelector('tfoot .total-row td:last-child').innerText = total.toLocaleString();
+            });
+        });
     </script>
 </body>
 </html>
