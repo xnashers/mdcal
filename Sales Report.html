@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 400px;
+            height: 600px;
+            border: 1px solid black;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <div class="container">
+        <h2 class="text-center">Sales Dashboard</h2>
+        <div class="mb-3">
+            <label class="form-label">Total Sales:</label>
+            <input type="number" class="form-control" id="inputTotalSales" oninput="calculateMetrics()">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Expenses:</label>
+            <input type="number" class="form-control" id="inputExpenses" oninput="calculateMetrics()">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Maya:</label>
+            <input type="number" class="form-control" id="inputMaya" oninput="calculateMetrics()">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Transaction Count:</label>
+            <input type="number" class="form-control" id="inputTransactionCount" oninput="calculateMetrics()">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Foot Traffic:</label>
+            <input type="number" class="form-control" id="inputFootTraffic" oninput="calculateMetrics()">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Facebook:</label>
+            <input type="number" class="form-control" id="inputFacebook" oninput="calculateMetrics()">
+        </div>
+        <hr>
+        <p>Total Sales: <span id="totalSales"></span></p>
+        <p>Net Sales (Cash Sales - Expenses - Maya): <span id="netSales"></span></p>
+        <p>Cash Sales: <span id="cashSales"></span></p>
+        <p>Transaction Count: <span id="transactionCount"></span></p>
+        <p>Foot Traffic: <span id="footTraffic"></span></p>
+        <p>Conversion Rate: <span id="conversionRate"></span>%</p>
+        <p>Basket Size: <span id="basketSize"></span></p>
+        <p>Walk-In: <span id="walkIn"></span></p>
+       
+    </div>
+    <script>
+    function calculateMetrics() {
+        let totalSales = parseFloat(document.getElementById("inputTotalSales").value) || 0;
+        let expenses = parseFloat(document.getElementById("inputExpenses").value) || 0;
+        let maya = parseFloat(document.getElementById("inputMaya").value) || 0;
+        let transactionCount = parseInt(document.getElementById("inputTransactionCount").value) || 0;
+        let footTraffic = parseInt(document.getElementById("inputFootTraffic").value) || 0;
+        let facebook = parseFloat(document.getElementById("inputFacebook").value) || 0;
+
+        let cashSales = Math.round(totalSales);
+        let netSales = cashSales - expenses - maya;
+        let conversionRate = footTraffic > 0 ? Math.round((transactionCount / footTraffic) * 100) : 0;
+        let basketSize = transactionCount > 0 ? (totalSales / transactionCount).toFixed(2) : 0;
+        let walkIn = totalSales - facebook;
+
+        document.getElementById("totalSales").textContent = totalSales;
+        document.getElementById("cashSales").textContent = cashSales;
+        document.getElementById("transactionCount").textContent = transactionCount;
+        document.getElementById("footTraffic").textContent = footTraffic;
+        document.getElementById("conversionRate").textContent = conversionRate;
+        document.getElementById("basketSize").textContent = basketSize;
+        document.getElementById("walkIn").textContent = walkIn;
+        document.getElementById("netSales").textContent = netSales;
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
